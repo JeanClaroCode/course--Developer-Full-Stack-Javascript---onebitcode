@@ -1,5 +1,5 @@
-import planetOperation  from './conversion';
 import Planet from './planet';
+import {convertAutoKM} from './conversion'
 
 let planets = [
     new Planet("Mercúrio", 0.39),
@@ -13,6 +13,6 @@ let planets = [
 ];
 
 planets.forEach(planet => {
-    let distanceFromSun = planetOperation.convertAutoKM(planet.auToSun).toFixed(2);
+    let distanceFromSun = convertAutoKM(planet.auToSun).toFixed(2);
     console.log(`${planet.name} - ${planet.auToSun}AU - ${distanceFromSun}km`);
 });
