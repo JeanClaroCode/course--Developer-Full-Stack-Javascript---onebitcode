@@ -1,6 +1,6 @@
-export const laserDefenses = ["Escudos Defletores", "Arma anti-laser"]
-export const steelDefenses = ["Escudos de Aço"]
+const laserDefenses = ["Escudos Defletores", "Arma anti-laser"]
+const steelDefenses = ["Escudos de Aço"]
 
-//export {laserDefenses, steelDefenses}
+export { laserDefenses as laserDef, steelDefenses}
 
 export default ["Escudo Repulsor"]
