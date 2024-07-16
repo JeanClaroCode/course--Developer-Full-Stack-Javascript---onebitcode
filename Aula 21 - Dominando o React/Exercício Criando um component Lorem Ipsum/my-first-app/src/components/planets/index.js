@@ -1,5 +1,6 @@
-import React, {Fragment} from "react";
-import Planet, { getSatellites } from "./planet";
+import React, {Fragment, useEffect, useState} from "react";
+import Planet from "./planet";
+import Form from "./form";
 
 export async function getPlanets(){
     let response = await fetch('http://localhost:3000/api/planets.json')
@@ -8,50 +9,33 @@ export async function getPlanets(){
 }
 
 
-class Planets extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            planets: [ ],
-            satellites: []
-        }
-    }
+const Planets = () => {
+    const [planets, setPlanets] = useState([])
 
-    componentDidMount() {
-        getPlanets().then(data => {
-            this.setState(state => (({
-                planets: data['planets']
-            })))
+    useEffect(() => {
+        getPlanets().then(data => { 
+            setPlanets(data['planets'])
         })
-    }
-    
- 
+    }, [])
 
-    
-    removeLast = () => {
-        let new_planets = [...this.state.planets]
-        new_planets.pop()
-        this.setState(state => ({
-            planets: new_planets
-        }))
-    }
-    duplicateLastPlanet = () => {
-        let last_planet = this.state.planets[this.state.planets.length - 1]
-        this.setState(state => ({
-            planets: [...this.state.planets, last_planet]
-        }))
-    }
-    render(){
+    const addPlanet = (new_planet) => {
+        console.log("Adding new planet:", new_planet);
+        setPlanets([...planets, new_planet]);
+        console.log(planets)
+    };
+
+    //basicamente pegando os planetas existentes, com spread vamos tirar de planets e somar com new_planets
+
         return (
             <Fragment>
                 <h3>Planet list</h3>
-                <button onClick={this.removeLast}>Remove Last</button>
-                <button onClick={this.duplicateLastPlanet}>Duplicate Last</button>
                 <hr/>
-                {this.state.planets.map((planet, index) =>
+                <Form addPlanet={addPlanet}/>
+                <hr/>
+                {planets.map((planet, index) =>
                     <Planet 
                     id={planet.id}
-                    name ={planet.name}
+                    name={planet.name}
                     description={planet.description}
                     link_url={planet.link_url}
                     img_url={planet.img_url}
@@ -61,5 +45,5 @@ class Planets extends React.Component {
             
             </Fragment>
         )}
-}
+
 export default Planets
